@@ -1,3 +1,4 @@
+import 'package:cityfood/pages/food_details.dart';
 import 'package:flutter/material.dart';
 import 'package:cityfood/data/food_data.dart';
 import 'package:cityfood/models/food_model.dart';
@@ -19,13 +20,15 @@ class _SearchPageState extends State<SearchPage> {
   @override
   Widget build(BuildContext context) {
     // 🧠 Filter foods by selected category and search query
-    final filteredFoods = foodList.where((food) {
-      final matchesCategory =
-          selectedIndex == 0 || food.category == categories[selectedIndex];
-      final matchesSearch =
-          food.name.toLowerCase().contains(searchQuery.toLowerCase());
-      return matchesCategory && matchesSearch;
-    }).toList();
+    final filteredFoods =
+        foodList.where((food) {
+          final matchesCategory =
+              selectedIndex == 0 || food.category == categories[selectedIndex];
+          final matchesSearch = food.name.toLowerCase().contains(
+            searchQuery.toLowerCase(),
+          );
+          return matchesCategory && matchesSearch;
+        }).toList();
 
     // 🧩 Sort foods by category order
     filteredFoods.sort((a, b) => a.category.index.compareTo(b.category.index));
@@ -52,8 +55,10 @@ class _SearchPageState extends State<SearchPage> {
                   decoration: const InputDecoration(
                     hintText: 'Search for food',
                     border: InputBorder.none,
-                    contentPadding:
-                        EdgeInsets.symmetric(horizontal: 20, vertical: 18),
+                    contentPadding: EdgeInsets.symmetric(
+                      horizontal: 20,
+                      vertical: 18,
+                    ),
                     prefixIcon: Icon(Icons.search),
                   ),
                 ),
@@ -69,10 +74,11 @@ class _SearchPageState extends State<SearchPage> {
                   itemCount: categories.length,
                   itemBuilder: (context, index) {
                     final isSelected = selectedIndex == index;
-                    final label = index == 0
-                        ? 'All'
-                        : categories[index]!.name[0].toUpperCase() +
-                            categories[index]!.name.substring(1);
+                    final label =
+                        index == 0
+                            ? 'All'
+                            : categories[index]!.name[0].toUpperCase() +
+                                categories[index]!.name.substring(1);
 
                     return Padding(
                       padding: const EdgeInsets.only(right: 15),
@@ -80,27 +86,33 @@ class _SearchPageState extends State<SearchPage> {
                         onTap: () => setState(() => selectedIndex = index),
                         child: Container(
                           padding: const EdgeInsets.symmetric(
-                              horizontal: 20, vertical: 8),
+                            horizontal: 20,
+                            vertical: 8,
+                          ),
                           decoration: BoxDecoration(
-                            color: isSelected
-                                ? const Color.fromARGB(255, 255, 132, 0)
-                                : Colors.transparent,
+                            color:
+                                isSelected
+                                    ? const Color.fromARGB(255, 255, 132, 0)
+                                    : Colors.transparent,
                             borderRadius: BorderRadius.circular(30),
                             border: Border.all(
-                              color: isSelected
-                                  ? const Color.fromARGB(255, 255, 132, 0)
-                                  : Colors.grey.shade300,
+                              color:
+                                  isSelected
+                                      ? const Color.fromARGB(255, 255, 132, 0)
+                                      : Colors.grey.shade300,
                             ),
                           ),
                           child: Text(
                             label,
                             style: TextStyle(
-                              color: isSelected
-                                  ? Colors.white
-                                  : Colors.grey.shade700,
-                              fontWeight: isSelected
-                                  ? FontWeight.bold
-                                  : FontWeight.normal,
+                              color:
+                                  isSelected
+                                      ? Colors.white
+                                      : Colors.grey.shade700,
+                              fontWeight:
+                                  isSelected
+                                      ? FontWeight.bold
+                                      : FontWeight.normal,
                               fontSize: 16,
                             ),
                           ),
@@ -129,7 +141,12 @@ class _SearchPageState extends State<SearchPage> {
 
                     return GestureDetector(
                       onTap: () {
-                        // handle food item tap here
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => FoodDetailsPage(food: food),
+                          ),
+                        );
                       },
                       child: Card(
                         shape: RoundedRectangleBorder(
@@ -150,8 +167,9 @@ class _SearchPageState extends State<SearchPage> {
                                   food.image,
                                   fit: BoxFit.cover,
                                   width: double.infinity,
-                                  errorBuilder: (context, error, stackTrace) =>
-                                      const Icon(Icons.fastfood, size: 50),
+                                  errorBuilder:
+                                      (context, error, stackTrace) =>
+                                          const Icon(Icons.fastfood, size: 50),
                                 ),
                               ),
                             ),
