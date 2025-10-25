@@ -2,11 +2,11 @@ import 'package:cityfood/pages/login_pages.dart';
 import 'package:flutter/material.dart';
 
 void main() {
-  runApp(const SpashPage());
+  runApp(const MyApp());
 }
 
-class SpashPage extends StatelessWidget {
-  const SpashPage({super.key});
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {

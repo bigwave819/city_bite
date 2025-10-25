@@ -7,227 +7,169 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      body: SingleChildScrollView(
-        padding: EdgeInsets.all(25),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // Summer Combo Card
-            Card(
-              elevation: 10,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(20),
-              ),
-              color: Colors.deepOrange,
-              child: Padding(
-                padding: const EdgeInsets.all(16),
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            "SUMMER",
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 28,
-                              color: Colors.white,
-                              letterSpacing: 2.0,
-                            ),
-                          ),
-                          Text(
-                            "COMBO",
-                            style: TextStyle(
-                              fontWeight: FontWeight.w900,
-                              fontSize: 36,
-                              color: Colors.white,
-                              letterSpacing: 3.0,
-                            ),
-                          ),
-                          SizedBox(height: 10),
-                          Text(
-                            "\$10.88",
-                            style: TextStyle(
-                              fontSize: 32,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    SizedBox(
-                      width: 150,
-                      child: Container(
-                        color: Colors.transparent,
-                        child: Image.asset(
-                          'images/burger-two.png',
-                          fit: BoxFit.contain,
-                          errorBuilder:
-                              (context, error, stackTrace) =>
-                                  const Icon(Icons.error, size: 50),
-                        ),
-                      ),
-                    ),
-                  ],
+      body: CustomScrollView(
+        slivers: [
+          // 🟠 Floating AppBar
+          SliverAppBar(
+            backgroundColor: Colors.white,
+            floating: true,
+            elevation: 0,
+            automaticallyImplyLeading: false,
+            title: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: const [
+                // Address
+                Text(
+                  'Kigali, Rwanda',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black,
+                    fontSize: 16,
+                  ),
                 ),
-              ),
-            ),
 
-            // burger
-            Card(
-              elevation: 10,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(20),
-              ),
-              color: Colors.amber,
-              child: Padding(
-                padding: const EdgeInsets.all(16),
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            "BURGERS",
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 28,
-                              color: Colors.white,
-                              letterSpacing: 2.0,
-                            ),
-                          ),
-                          SizedBox(height: 10),
-                          Text(
-                            "\$10.88",
-                            style: TextStyle(
-                              fontSize: 32,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    SizedBox(
-                      width: 150,
-                      child: Container(
-                        color: Colors.transparent,
-                        child: Image.asset(
-                          'images/burger-one.png',
-                          fit: BoxFit.contain,
-                        ),
-                      ),
-                    ),
-                  ],
+                // Avatar on the right
+                CircleAvatar(
+                  radius: 20,
+                  backgroundImage: AssetImage('images/avatar.png'),
                 ),
+              ],
+            ),
+          ),
+
+          // 🧱 Cards Section
+          SliverToBoxAdapter(
+            child: Padding(
+              padding: const EdgeInsets.all(20),
+              child: Column(
+                children: [
+                  _buildFoodCard(
+                    title1: "SUMMER",
+                    title2: "COMBO",
+                    color: Colors.deepOrange,
+                    image: 'images/burger-two.png',
+                    reverseLayout: false,
+                  ),
+                  _buildFoodCard(
+                    title1: "BURGERS",
+                    color: Colors.amber,
+                    image: 'images/burger-one.png',
+                    reverseLayout: true,
+                  ),
+                  _buildFoodCard(
+                    title1: "PIZZA",
+                    color: const Color.fromARGB(255, 53, 88, 49),
+                    image: 'images/pizza-one.png',
+                    reverseLayout: false,
+                  ),
+                  _buildFoodCard(
+                    title1: "BURRITO",
+                    color: Colors.orange,
+                    image: 'images/buritto.png',
+                    reverseLayout: true,
+                  ),
+                ],
               ),
             ),
-            SizedBox(height: 30),
-            //pizza
-            Card(
-              elevation: 10,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(20),
-              ),
-              color: const Color.fromARGB(255, 53, 88, 49),
-              child: Padding(
-                padding: const EdgeInsets.all(16),
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            "Pizza",
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 28,
-                              color: Colors.white,
-                              letterSpacing: 2.0,
-                            ),
-                          ),
-                          SizedBox(height: 10),
-                          Text(
-                            "\$10.88",
-                            style: TextStyle(
-                              fontSize: 32,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    SizedBox(
-                      width: 150,
-                      child: Container(
-                        color: Colors.transparent,
-                        child: Image.asset(
-                          'images/pizza-one.png',
-                          fit: BoxFit.contain,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            //burrito
-            Card(
-              elevation: 10,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(20),
-              ),
-              color: Colors.orange,
-              child: Padding(
-                padding: const EdgeInsets.all(16),
-                child: Row(
-                  children: [
-                    SizedBox(
-                      width: 150,
-                      child: Container(
-                        color: Colors.transparent,
-                        child: Image.asset(
-                          'images/buritto.png',
-                          fit: BoxFit.contain,
-                        ),
-                      ),
-                    ),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        children: [
-                          Text(
-                            "Burrito",
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 28,
-                              color: Colors.white,
-                              letterSpacing: 2.0,
-                            ),
-                          ),
-                          SizedBox(height: 10),
-                          Text(
-                            "\$10.88",
-                            style: TextStyle(
-                              fontSize: 32,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  // 🍔 Reusable Food Card
+  Widget _buildFoodCard({
+    required String title1,
+    String? title2,
+    required Color color,
+    required String image,
+    required bool reverseLayout,
+  }) {
+    final content = [
+      // 🖼️ Image
+      Flexible(
+        flex: 1,
+        child: Padding(
+          padding: const EdgeInsets.all(10.0),
+          child: Image.asset(
+            image,
+            fit: BoxFit.contain,
+            height: 120,
+            errorBuilder: (context, error, stackTrace) =>
+                const Icon(Icons.error, size: 50, color: Colors.white),
+          ),
         ),
+      ),
+
+      // 🧾 Text + Arrow
+      Expanded(
+        flex: 2,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 8),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment:
+                reverseLayout ? CrossAxisAlignment.end : CrossAxisAlignment.start,
+            children: [
+              Text(
+                title1,
+                style: const TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 26,
+                  color: Colors.white,
+                  letterSpacing: 2.0,
+                ),
+              ),
+              if (title2 != null)
+                Text(
+                  title2,
+                  style: const TextStyle(
+                    fontWeight: FontWeight.w900,
+                    fontSize: 34,
+                    color: Colors.white,
+                    letterSpacing: 3.0,
+                  ),
+                ),
+              const SizedBox(height: 10),
+              Align(
+                alignment: reverseLayout
+                    ? Alignment.centerLeft
+                    : Alignment.centerRight,
+                child: Container(
+                  padding: const EdgeInsets.all(8),
+                  decoration: const BoxDecoration(
+                    color: Colors.white,
+                    shape: BoxShape.circle,
+                  ),
+                  child: Icon(
+                    Icons.arrow_forward,
+                    color: color,
+                    size: 20,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    ];
+
+    return Container(
+      height: 180,
+      margin: const EdgeInsets.only(bottom: 20),
+      decoration: BoxDecoration(
+        color: color,
+        borderRadius: BorderRadius.circular(20),
+        boxShadow: const [
+          BoxShadow(
+            color: Colors.black12,
+            blurRadius: 5,
+            offset: Offset(0, 3),
+          ),
+        ],
+      ),
+      child: Row(
+        children: reverseLayout ? content : content.reversed.toList(),
       ),
     );
   }
