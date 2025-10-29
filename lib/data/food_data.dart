@@ -1,8 +1,9 @@
 import 'package:cityfood/models/food_model.dart';
+import 'package:flutter/material.dart';
 
 
-
-final List<FoodModel> foodList = [
+class Restaurant extends ChangeNotifier{
+  final List<FoodModel> foodList = [
   FoodModel(
     name: 'Classic Beef Burger',
     image: 'images/foods/burger-one.jpg',
@@ -67,3 +68,7 @@ final List<FoodModel> foodList = [
     category: FoodCategory.burrito,
   ),
 ];
+
+}
+
+

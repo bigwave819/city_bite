@@ -21,15 +21,9 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
-    final pageBgColor = const Color.fromARGB(
-      255,
-      250,
-      253,
-      255,
-    ); // flat background color
 
     return Scaffold(
-      backgroundColor: pageBgColor,
+      backgroundColor: Colors.grey.shade200,
       body: Center(
         child: SingleChildScrollView(
           padding: const EdgeInsets.all(25),
@@ -119,11 +113,11 @@ class _LoginPageState extends State<LoginPage> {
                     width: double.infinity,
                     height: 55,
                     decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(15),
+                      color: const Color.fromARGB(255, 12, 21, 71),
+                      borderRadius: BorderRadius.circular(35),
                       boxShadow: [
                         BoxShadow(
-                          color: Colors.black26,
+                          color: const Color.fromARGB(66, 0, 16, 106),
                           blurRadius: 8,
                           offset: Offset(2, 2),
                         ),
@@ -139,7 +133,7 @@ class _LoginPageState extends State<LoginPage> {
                       child: Text(
                         "Login",
                         style: TextStyle(
-                          color: Colors.blueGrey.shade800,
+                          color: Colors.white,
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
                         ),

@@ -1,59 +1,47 @@
 import 'package:flutter/material.dart';
 
-class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
-  final String title;
-  final VoidCallback? onBackPressed;
-  final VoidCallback? onSearchPressed;
-
-  const CustomAppBar({
-    super.key,
-    required this.title,
-    this.onBackPressed,
-    this.onSearchPressed,
-  });
+class ScrollHideAppBarPage extends StatelessWidget {
+  const ScrollHideAppBarPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      
-      padding: const EdgeInsets.symmetric(horizontal: 16),
-      height: preferredSize.height,
-      decoration: const BoxDecoration(
-        color: Colors.transparent,
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          // Back arrow
-          IconButton(
-            icon: const Icon(Icons.arrow_back, color: Colors.black),
-            onPressed: onBackPressed ?? () => Navigator.pop(context),
-          ),
-
-          // Title centered
-          Expanded(
-            child: Center(
-              child: Text(
-                title,
-                style: const TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black,
-                ),
-              ),
+    return Scaffold(
+      body: CustomScrollView(
+        slivers: [
+          // SliverAppBar hides when scrolling down
+          SliverAppBar(
+            title: const Text(
+              'My Title',
+              style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
             ),
+            centerTitle: true,
+            floating: true, // makes it disappear and reappear smoothly
+            snap: true, // optional: snaps into view when scrolling up
+            backgroundColor: Colors.grey.shade200,
+            elevation: 0,
+            leading: IconButton(
+              icon: const Icon(Icons.arrow_back, color: Colors.black),
+              onPressed: () => Navigator.pop(context),
+            ),
+            actions: [
+              IconButton(
+                icon: const Icon(Icons.search, color: Colors.black),
+                onPressed: () {},
+              ),
+            ],
           ),
 
-          // Search icon
-          IconButton(
-            icon: const Icon(Icons.search, color: Colors.black),
-            onPressed: onSearchPressed,
+          // Scrollable content
+          SliverList(
+            delegate: SliverChildBuilderDelegate(
+              (context, index) => ListTile(
+                title: Text('Item $index'),
+              ),
+              childCount: 50,
+            ),
           ),
         ],
       ),
     );
   }
-
-  @override
-  Size get preferredSize => const Size.fromHeight(56);
 }

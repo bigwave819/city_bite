@@ -1,4 +1,3 @@
-import 'package:cityfood/components/my_app_bar.dart';
 import 'package:flutter/material.dart';
 
 class ProfilePage extends StatefulWidget {
@@ -13,121 +12,154 @@ class _ProfilePageState extends State<ProfilePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.grey.shade200,
-      appBar: const CustomAppBar(
-        title: 'Profile',
-        onSearchPressed: null, // Add your logic here
-      ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(20.0),
-          child: Column(
-            children: [
-              const SizedBox(height: 60),
-
-              // Avatar Image
-              const CircleAvatar(
-                radius: 60,
-                foregroundImage: AssetImage('images/avatar.png'),
+      body: CustomScrollView(
+        slivers: [
+          // SliverAppBar replaces static CustomAppBar
+          SliverAppBar(
+            backgroundColor: Colors.white,
+            elevation: 0,
+            floating: true,
+            snap: true,
+            centerTitle: true,
+            title: const Text(
+              'Profile',
+              style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+                color: Colors.black,
               ),
-
-              const SizedBox(height: 30),
-
-              // Profile Info Card
-              Container(
-                padding: const EdgeInsets.all(16),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(20),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withValues(alpha: 0.1),
-                      blurRadius: 5,
-                      offset: const Offset(0, 3),
-                    ),
-                  ],
-                ),
-                child: Column(
-                  children: [
-                    ProfileInfoRow(
-                      icon: Icons.person,
-                      preTitle: 'Full Name',
-                      title: 'Hirwa Tresor',
-                    ),
-                    const SizedBox(height: 12),
-                    ProfileInfoRow(
-                      icon: Icons.email,
-                      preTitle: 'Email Info',
-                      title: 'hirwa@example.com',
-                    ),
-                    const SizedBox(height: 12),
-                    ProfileInfoRow(
-                      icon: Icons.phone,
-                      preTitle: 'Phone numbel',
-                      title: '+250 123 456 789',
-                    ),
-                    const SizedBox(height: 12),
-                    ProfileInfoRow(
-                      icon: Icons.location_city,
-                      preTitle: 'Address info',
-                      title: 'Kigali, Rwanda',
-                    ),
-                  ],
-                ),
+            ),
+            leading: IconButton(
+              icon: const Icon(Icons.arrow_back, color: Colors.black),
+              onPressed: () => Navigator.pop(context),
+            ),
+            actions: [
+              IconButton(
+                icon: const Icon(Icons.search, color: Colors.black),
+                onPressed: null, // Add your logic here
               ),
+            ],
+          ),
 
-              const SizedBox(height: 20),
-              Container(
-                width: double.infinity,
-                padding: const EdgeInsets.all(10),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(20),
-                  color: Colors.orange.withValues(alpha: 0.1),
-                  border: Border.all(color: Colors.orange),
-                ),
-                child: const Center(
-                  child: Text(
-                    'Edit Profile',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 12,
-                      color: Colors.orange,
+          // Page Content
+          SliverToBoxAdapter(
+            child: Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: Column(
+                children: [
+                  const SizedBox(height: 60),
+
+                  // Avatar Image
+                  const CircleAvatar(
+                    radius: 60,
+                    foregroundImage: AssetImage('images/avatar.png'),
+                  ),
+
+                  const SizedBox(height: 30),
+
+                  // Profile Info Card
+                  Container(
+                    padding: const EdgeInsets.all(16),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(20),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withValues(alpha: 0.1),
+                          blurRadius: 5,
+                          offset: const Offset(0, 3),
+                        ),
+                      ],
+                    ),
+                    child: Column(
+                      children: [
+                        const ProfileInfoRow(
+                          icon: Icons.person,
+                          preTitle: 'Full Name',
+                          title: 'Hirwa Tresor',
+                        ),
+                        const SizedBox(height: 12),
+                        const ProfileInfoRow(
+                          icon: Icons.email,
+                          preTitle: 'Email Info',
+                          title: 'hirwa@example.com',
+                        ),
+                        const SizedBox(height: 12),
+                        const ProfileInfoRow(
+                          icon: Icons.phone,
+                          preTitle: 'Phone number',
+                          title: '+250 123 456 789',
+                        ),
+                        const SizedBox(height: 12),
+                        const ProfileInfoRow(
+                          icon: Icons.location_city,
+                          preTitle: 'Address Info',
+                          title: 'Kigali, Rwanda',
+                        ),
+                      ],
                     ),
                   ),
-                ),
-              ),
-              const SizedBox(height: 20),
-              Container(
-                width: double.infinity,
-                padding: const EdgeInsets.all(10),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(20),
-                  color: Colors.red.withValues(alpha: 0.1),
-                  border: Border.all(color: Colors.red),
-                ),
-                child: Center(
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min, // Shrink row to fit content
-                    children: const [
-                      Icon(Icons.logout, size: 16, color: Colors.red),
-                      SizedBox(width: 6), // Spacing between icon and text
-                      Text(
+
+                  const SizedBox(height: 20),
+
+                  // Edit Profile button
+                  Container(
+                    width: double.infinity,
+                    padding: const EdgeInsets.all(10),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(20),
+                      color: Colors.orange.withValues(alpha: 0.1),
+                      border: Border.all(color: Colors.orange),
+                    ),
+                    child: const Center(
+                      child: Text(
                         'Edit Profile',
+                        textAlign: TextAlign.center,
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 12,
-                          color: Colors.red,
+                          color: Colors.orange,
                         ),
                       ),
-                    ],
+                    ),
                   ),
-                ),
-              ),
 
-              const SizedBox(height: 30),
-            ],
+                  const SizedBox(height: 20),
+
+                  // Logout button
+                  Container(
+                    width: double.infinity,
+                    padding: const EdgeInsets.all(10),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(20),
+                      color: Colors.red.withValues(alpha: 0.1),
+                      border: Border.all(color: Colors.red),
+                    ),
+                    child: const Center(
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Icon(Icons.logout, size: 16, color: Colors.red),
+                          SizedBox(width: 6),
+                          Text(
+                            'Logout',
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 12,
+                              color: Colors.red,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+
+                  const SizedBox(height: 30),
+                ],
+              ),
+            ),
           ),
-        ),
+        ],
       ),
     );
   }
