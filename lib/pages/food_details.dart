@@ -1,5 +1,8 @@
 import 'package:cityfood/models/food_model.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import '../data/food_data.dart'; // Your Restaurant provider
 
 class FoodDetailsPage extends StatefulWidget {
   final FoodModel food;
@@ -14,32 +17,27 @@ class _FoodDetailsPageState extends State<FoodDetailsPage> {
 
   @override
   Widget build(BuildContext context) {
-    // Calculate total price
     double totalPrice = widget.food.price * quantity;
 
     return Scaffold(
       body: Stack(
         children: [
-          // Top image with improved error handling
+          // Top food image
           Positioned(
             top: 0,
             left: 0,
             right: 0,
             child: ClipRRect(
-              borderRadius: const BorderRadius.only(
-                bottomLeft: Radius.circular(20),
-                bottomRight: Radius.circular(20),
-              ),
               child: Container(
                 height: 300,
                 width: double.infinity,
-                color: Colors.grey.shade200, // Fallback background
+                color: Colors.grey.shade200,
                 child: _buildFoodImage(),
               ),
             ),
           ),
 
-          // Back button (like iPhone)
+          // Back button
           Positioned(
             top: MediaQuery.of(context).padding.top + 10,
             left: 10,
@@ -79,7 +77,7 @@ class _FoodDetailsPageState extends State<FoodDetailsPage> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    // Name + Unit price
+                    // Name + Price
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -154,7 +152,8 @@ class _FoodDetailsPageState extends State<FoodDetailsPage> {
                           iconSize: 30,
                         ),
                         Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 20, vertical: 8),
                           decoration: BoxDecoration(
                             border: Border.all(color: Colors.grey.shade300),
                             borderRadius: BorderRadius.circular(10),
@@ -182,10 +181,32 @@ class _FoodDetailsPageState extends State<FoodDetailsPage> {
 
                     const SizedBox(height: 20),
 
-                    // Dynamic Add to Cart button
+                    // Add to Cart button
                     Center(
                       child: ElevatedButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          // Add multiple items according to quantity
+                          for (int i = 0; i < quantity; i++) {
+                            Provider.of<Restaurant>(context, listen: false)
+                                .addToCart(widget.food);
+                          }
+
+                          // iOS-style confirmation
+                          showCupertinoDialog(
+                            context: context,
+                            builder: (_) => CupertinoAlertDialog(
+                              title: const Text("Added to Cart"),
+                              content: Text(
+                                  "${widget.food.name} x$quantity has been added to your cart."),
+                              actions: [
+                                CupertinoDialogAction(
+                                  child: const Text("OK"),
+                                  onPressed: () => Navigator.pop(context),
+                                ),
+                              ],
+                            ),
+                          );
+                        },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.orange,
                           padding: const EdgeInsets.symmetric(
@@ -217,7 +238,6 @@ class _FoodDetailsPageState extends State<FoodDetailsPage> {
   }
 
   Widget _buildFoodImage() {
-    // Check if it's a network image or asset
     if (widget.food.image.startsWith('http')) {
       return Image.network(
         widget.food.image,
@@ -226,29 +246,19 @@ class _FoodDetailsPageState extends State<FoodDetailsPage> {
         fit: BoxFit.cover,
         loadingBuilder: (context, child, loadingProgress) {
           if (loadingProgress == null) return child;
-          return Center(
-            child: CircularProgressIndicator(
-              value: loadingProgress.expectedTotalBytes != null
-                  ? loadingProgress.cumulativeBytesLoaded /
-                      loadingProgress.expectedTotalBytes!
-                  : null,
-            ),
-          );
+          return const Center(child: CupertinoActivityIndicator());
         },
         errorBuilder: (context, error, stackTrace) {
-          print('Image loading error: $error');
           return _buildErrorImage();
         },
       );
     } else {
-      // Assume it's an asset image
       return Image.asset(
         widget.food.image,
         width: double.infinity,
         height: 300,
         fit: BoxFit.cover,
         errorBuilder: (context, error, stackTrace) {
-          print('Asset image error: $error');
           return _buildErrorImage();
         },
       );
